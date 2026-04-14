@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About — MyTodo</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <!-- Google Fonts — same as todo.html -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    /* ============================================================
+       DESIGN TOKENS — identical to todo.html
+    ============================================================ */
+    :root {
+      --bg:           #f5f3ee;
+      --surface:      #fffefb;
+      --surface2:     #f0ede6;
+      --accent:       #2d6a4f;
+      --accent-light: #52b788;
+      --accent-pale:  #d8f3dc;
+      --danger:       #e63946;
+      --danger-pale:  #ffe8ea;
+      --warn:         #f4a261;
+      --warn-pale:    #fff3e8;
+      --text:         #1a1a2e;
+      --text-muted:   #7c7c8a;
+      --border:       #e4e0d8;
+      --shadow:       0 2px 20px rgba(0,0,0,0.07);
+      --shadow-hover: 0 8px 40px rgba(0,0,0,0.13);
+      --radius:       14px;
+      --transition:   all 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
+      --font:         'Plus Jakarta Sans', sans-serif;
+      --font-serif:   'Instrument Serif', serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ============================================================
+       NAVBAR — exact match to todo.html
+    ============================================================ */
+    .navbar-custom {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 0;
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 1px 16px rgba(0,0,0,0.05);
+    }
+    .brand {
+      font-size: 1.45rem; font-weight: 800;
+      color: var(--text); text-decoration: none;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .brand-dot {
+      width: 10px; height: 10px;
+      background: var(--accent); border-radius: 50%;
+      display: inline-block;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { transform: scale(1); opacity: 1; }
+      50%      { transform: scale(1.4); opacity: 0.7; }
+    }
+    .nav-link-custom {
+      color: var(--text-muted) !important;
+      font-size: 0.88rem; font-weight: 500; letter-spacing: 0.3px;
+      padding: 6px 14px !important; border-radius: 8px;
+      transition: var(--transition); text-decoration: none;
+    }
+    .nav-link-custom:hover,
+    .nav-link-custom.active {
+      color: var(--accent) !important;
+      background: var(--accent-pale);
+    }
+    .search-box {
+      border: 1.5px solid var(--border); border-radius: 10px;
+      padding: 8px 14px; font-family: var(--font); font-size: 0.85rem;
+      background: var(--bg); color: var(--text);
+      transition: var(--transition); width: 200px;
+    }
+    .search-box:focus {
+      outline: none; border-color: var(--accent-light);
+      box-shadow: 0 0 0 3px rgba(82,183,136,0.15);
+      background: var(--surface); width: 240px;
+    }
+    .btn-search {
+      background: var(--accent); color: #fff; border: none;
+      border-radius: 10px; padding: 8px 18px;
+      font-size: 0.85rem; font-weight: 600; font-family: var(--font);
+      cursor: pointer; transition: var(--transition);
+    }
+    .btn-search:hover { background: #1b4332; }
+
+    /* ============================================================
+       PAGE HEADER
+    ============================================================ */
+    .page-header {
+      background: linear-gradient(135deg, var(--accent) 0%, #1b4332 100%);
+      padding: 64px 0 72px;
+      position: relative; overflow: hidden;
+    }
+    .page-header::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .page-header::after {
+      content: '';
+      position: absolute; bottom: -1px; left: 0; right: 0; height: 48px;
+      background: var(--bg);
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+    .header-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 100px; padding: 5px 16px;
+      font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 1.5px; text-transform: uppercase; color: #fff;
+      margin-bottom: 20px;
+    }
+    .page-header h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      color: #fff; font-style: italic; line-height: 1.1;
+      position: relative;
+    }
+    .page-header h1 span {
+      font-style: normal; font-family: var(--font);
+      font-weight: 800;
+    }
+    .page-header p {
+      color: rgba(255,255,255,0.72); font-size: 1rem;
+      margin-top: 12px; max-width: 520px; line-height: 1.7;
+      position: relative;
+    }
+    .stats-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 100px; padding: 6px 16px;
+      font-size: 0.8rem; color: #fff; font-weight: 500;
+    }
+
+    /* ============================================================
+       SHARED CARD
+    ============================================================ */
+    .card-custom {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: var(--transition);
+    }
+    .card-custom:hover { box-shadow: var(--shadow-hover); transform: translateY(-3px); }
+    .card-header-custom {
+      padding: 22px 28px 18px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .card-title {
+      font-size: 1rem; font-weight: 700; color: var(--text);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .card-title .icon {
+      width: 32px; height: 32px;
+      background: var(--accent-pale); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent); font-size: 0.85rem;
+    }
+    .card-body-custom { padding: 28px; }
+
+    /* ============================================================
+       SECTION UTILITY
+    ============================================================ */
+    section { padding: 72px 0; }
+    .section-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--accent-pale); border-radius: 100px;
+      padding: 4px 14px;
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent);
+      margin-bottom: 14px;
+    }
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-style: italic; line-height: 1.15; color: var(--text);
+      margin-bottom: 14px;
+    }
+    .section-title strong {
+      font-style: normal; font-family: var(--font); font-weight: 800;
+    }
+    .section-desc {
+      color: var(--text-muted); font-size: 1rem; line-height: 1.8;
+      max-width: 560px;
+    }
+
+    /* ============================================================
+       INTRO STATS STRIP
+    ============================================================ */
+    .intro-strip {
+      display: grid; grid-template-columns: repeat(4,1fr);
+      border: 1px solid var(--border); border-radius: var(--radius);
+      overflow: hidden; background: var(--surface); box-shadow: var(--shadow);
+    }
+    @media (max-width: 767px) { .intro-strip { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 479px) { .intro-strip { grid-template-columns: 1fr; } }
+    .intro-cell {
+      padding: 32px 28px;
+      border-right: 1px solid var(--border);
+      transition: var(--transition);
+    }
+    .intro-cell:last-child { border-right: none; }
+    .intro-cell:hover { background: var(--accent-pale); }
+    .intro-cell .num {
+      font-family: var(--font-serif);
+      font-size: 2.6rem; font-style: italic;
+      color: var(--accent); line-height: 1; margin-bottom: 4px;
+    }
+    .intro-cell .lbl {
+      font-size: 0.75rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted);
+    }
+
+    /* ============================================================
+       MISSION
+    ============================================================ */
+    .mission-layout {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 48px; align-items: center;
+    }
+    @media (max-width: 767px) { .mission-layout { grid-template-columns: 1fr; gap: 32px; } }
+
+    .quote-block {
+      border-left: 3px solid var(--accent);
+      padding: 24px 28px;
+      background: var(--accent-pale);
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+    .quote-block p {
+      font-family: var(--font-serif);
+      font-size: 1.35rem; font-style: italic;
+      color: var(--accent); line-height: 1.5;
+    }
+    .quote-block cite {
+      display: block; margin-top: 12px;
+      font-size: 0.8rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1px;
+      color: var(--text-muted); font-style: normal;
+    }
+    .mission-pill-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 28px; }
+    .mission-pill {
+      display: flex; align-items: flex-start; gap: 12px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 16px; transition: var(--transition);
+    }
+    .mission-pill:hover { border-color: var(--accent-light); background: var(--accent-pale); }
+    .mission-pill .pill-icon {
+      width: 36px; height: 36px; min-width: 36px;
+      background: var(--accent-pale); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent); font-size: 0.9rem; transition: var(--transition);
+    }
+    .mission-pill:hover .pill-icon { background: var(--accent); color: #fff; }
+    .mission-pill h4 { font-size: 0.85rem; font-weight: 700; margin-bottom: 2px; }
+    .mission-pill p  { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; }
+
+    /* ============================================================
+       TIMELINE
+    ============================================================ */
+    .timeline { position: relative; padding-left: 28px; }
+    .timeline::before {
+      content: ''; position: absolute; left: 7px; top: 8px; bottom: 8px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent-pale), var(--accent), var(--accent-pale));
+      border-radius: 2px;
+    }
+    .tl-item { position: relative; padding-bottom: 44px; padding-left: 32px; }
+    .tl-item:last-child { padding-bottom: 0; }
+    .tl-dot {
+      position: absolute; left: -28px; top: 5px;
+      width: 16px; height: 16px;
+      background: var(--surface); border: 2.5px solid var(--border);
+      border-radius: 50%; transition: var(--transition);
+    }
+    .tl-item:hover .tl-dot {
+      border-color: var(--accent); background: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-pale);
+    }
+    .tl-year { font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 4px; }
+    .tl-item h4 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+    .tl-item p  { font-size: 0.88rem; color: var(--text-muted); line-height: 1.7; }
+
+    /* ============================================================
+       FEATURES GRID
+    ============================================================ */
+    .features-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 20px;
+    }
+    @media (max-width: 991px) { .features-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 575px)  { .features-grid { grid-template-columns: 1fr; } }
+
+    .feature-card {
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: var(--radius); padding: 28px 24px;
+      transition: var(--transition); position: relative; overflow: hidden;
+    }
+    .feature-card::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--accent-light), var(--accent));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.35s ease;
+    }
+    .feature-card:hover { border-color: var(--accent-light); box-shadow: var(--shadow-hover); transform: translateY(-4px); }
+    .feature-card:hover::after { transform: scaleX(1); }
+    .feature-icon {
+      width: 48px; height: 48px; background: var(--accent-pale); border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent); font-size: 1.2rem; margin-bottom: 20px; transition: var(--transition);
+    }
+    .feature-card:hover .feature-icon { background: var(--accent); color: #fff; }
+    .feature-card h3 { font-size: 0.97rem; font-weight: 700; margin-bottom: 8px; }
+    .feature-card p  { font-size: 0.85rem; color: var(--text-muted); line-height: 1.7; }
+
+    /* ============================================================
+       HOW IT WORKS
+    ============================================================ */
+    .steps-wrap {
+      display: grid; grid-template-columns: repeat(4,1fr); gap: 0;
+      border: 1px solid var(--border); border-radius: var(--radius);
+      overflow: hidden; background: var(--surface); box-shadow: var(--shadow);
+    }
+    @media (max-width: 767px) { .steps-wrap { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 479px) { .steps-wrap { grid-template-columns: 1fr; } }
+    .step-cell {
+      padding: 32px 24px; border-right: 1px solid var(--border);
+      position: relative; transition: var(--transition);
+    }
+    .step-cell:last-child { border-right: none; }
+    .step-cell:hover { background: var(--accent-pale); }
+    .step-num {
+      font-family: var(--font-serif); font-size: 3rem; font-style: italic;
+      color: var(--border); line-height: 1;
+      position: absolute; top: 16px; right: 20px; transition: var(--transition);
+    }
+    .step-cell:hover .step-num { color: var(--accent-light); }
+    .step-icon {
+      width: 44px; height: 44px; background: var(--accent-pale); border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent); font-size: 1.1rem; margin-bottom: 16px; transition: var(--transition);
+    }
+    .step-cell:hover .step-icon { background: var(--accent); color: #fff; }
+    .step-cell h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; }
+    .step-cell p  { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* ============================================================
+       TEAM
+    ============================================================ */
+    .team-grid {
+      display: grid; grid-template-columns: repeat(4,1fr); gap: 20px;
+    }
+    @media (max-width: 991px) { .team-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 479px)  { .team-grid { grid-template-columns: 1fr; } }
+
+    .team-card {
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+      transition: var(--transition); text-align: center;
+    }
+    .team-card:hover { border-color: var(--accent-light); box-shadow: var(--shadow-hover); transform: translateY(-4px); }
+    .team-avatar-wrap {
+      position: relative;
+      background: linear-gradient(135deg, var(--accent-pale), var(--surface2));
+      padding: 32px 0 28px;
+    }
+    .team-avatar {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: var(--accent); display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; font-weight: 800; color: #fff; font-family: var(--font);
+      margin: 0 auto; border: 3px solid var(--surface);
+      box-shadow: 0 4px 16px rgba(45,106,79,0.25); transition: var(--transition);
+    }
+    .team-card:hover .team-avatar { transform: scale(1.06); }
+    .team-role-badge {
+      position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%);
+      background: var(--accent); color: #fff;
+      font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase;
+      padding: 3px 12px; border-radius: 100px; white-space: nowrap;
+      border: 2px solid var(--surface);
+    }
+    .team-info { padding: 24px 20px 20px; }
+    .team-name { font-size: 0.97rem; font-weight: 700; margin-bottom: 6px; }
+    .team-bio  { font-size: 0.78rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 14px; }
+    .team-socials { display: flex; justify-content: center; gap: 8px; }
+    .team-social-btn {
+      width: 30px; height: 30px; border: 1.5px solid var(--border); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-muted); font-size: 0.7rem; text-decoration: none; transition: var(--transition);
+    }
+    .team-social-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-pale); }
+
+    /* ============================================================
+       TESTIMONIALS
+    ============================================================ */
+    .testimonials-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 20px;
+    }
+    @media (max-width: 991px) { .testimonials-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 575px)  { .testimonials-grid { grid-template-columns: 1fr; } }
+
+    .testi-card {
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: var(--radius); padding: 28px;
+      transition: var(--transition);
+    }
+    .testi-card:hover { border-color: var(--accent-light); box-shadow: var(--shadow-hover); transform: translateY(-3px); }
+    .testi-stars { color: var(--warn); font-size: 0.75rem; margin-bottom: 14px; letter-spacing: 2px; }
+    .testi-text  { font-size: 0.9rem; color: var(--text); line-height: 1.8; font-style: italic; margin-bottom: 20px; }
+    .testi-author { display: flex; align-items: center; gap: 12px; }
+    .testi-avatar {
+      width: 40px; height: 40px; border-radius: 50%; background: var(--accent);
+      color: #fff; display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; font-weight: 800;
+    }
+    .testi-name { font-size: 0.87rem; font-weight: 700; }
+    .testi-role { font-size: 0.72rem; color: var(--text-muted); }
+
+    /* ============================================================
+       FAQ
+    ============================================================ */
+    .faq-item {
+      border: 1.5px solid var(--border); border-radius: var(--radius);
+      overflow: hidden; margin-bottom: 10px;
+      background: var(--surface); transition: var(--transition);
+    }
+    .faq-item:hover { border-color: var(--accent-light); }
+    .faq-question {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 22px; cursor: pointer;
+      font-size: 0.95rem; font-weight: 600;
+      user-select: none; gap: 16px;
+    }
+    .faq-question:hover { color: var(--accent); }
+    .faq-chevron {
+      width: 28px; height: 28px; min-width: 28px;
+      background: var(--surface2); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-muted); font-size: 0.7rem;
+      transition: transform 0.3s ease;
+    }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); background: var(--accent-pale); color: var(--accent); }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.25,0.46,0.45,0.94); }
+    .faq-item.open .faq-answer { max-height: 200px; }
+    .faq-answer p { padding: 0 22px 18px; font-size: 0.88rem; color: var(--text-muted); line-height: 1.8; }
+
+    /* ============================================================
+       CTA BANNER
+    ============================================================ */
+    .cta-banner {
+      background: linear-gradient(135deg, var(--accent) 0%, #1b4332 100%);
+      border-radius: var(--radius); padding: 56px 48px;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .cta-banner::before {
+      content: ''; position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .cta-banner h2 {
+      font-family: var(--font-serif); font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-style: italic; color: #fff; margin-bottom: 12px; position: relative;
+    }
+    .cta-banner p {
+      color: rgba(255,255,255,0.75); font-size: 1rem; line-height: 1.7;
+      max-width: 480px; margin: 0 auto 28px; position: relative;
+    }
+    .btn-cta-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #fff; color: var(--accent);
+      border: none; border-radius: 10px;
+      padding: 13px 28px; font-family: var(--font);
+      font-size: 0.9rem; font-weight: 700;
+      cursor: pointer; transition: var(--transition);
+      text-decoration: none; position: relative;
+    }
+    .btn-cta-primary:hover { background: var(--accent-pale); color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+    .btn-cta-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent; color: #fff;
+      border: 1.5px solid rgba(255,255,255,0.4);
+      border-radius: 10px; padding: 12px 26px;
+      font-family: var(--font); font-size: 0.9rem; font-weight: 600;
+      cursor: pointer; transition: var(--transition); text-decoration: none; position: relative;
+    }
+    .btn-cta-ghost:hover { border-color: #fff; background: rgba(255,255,255,0.1); color: #fff; }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 60px 0 32px;
+    }
+    .footer-brand { font-size: 1.4rem; font-weight: 800; color: var(--text); display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .footer-desc  { color: var(--text-muted); font-size: 0.88rem; line-height: 1.8; max-width: 260px; }
+    .footer-heading { font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text); margin-bottom: 16px; }
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 8px; }
+    .footer-links a {
+      color: var(--text-muted); font-size: 0.88rem; text-decoration: none;
+      transition: var(--transition); display: inline-flex; align-items: center; gap: 6px;
+    }
+    .footer-links a:hover { color: var(--accent); padding-left: 4px; }
+    .footer-bottom {
+      margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .footer-bottom p { color: var(--text-muted); font-size: 0.82rem; }
+    .social-row { display: flex; gap: 8px; }
+    .social-btn {
+      width: 36px; height: 36px; border: 1.5px solid var(--border); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-muted); font-size: 0.75rem; text-decoration: none; transition: var(--transition);
+    }
+    .social-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-pale); }
+
+    /* ============================================================
+       SCROLL-TO-TOP
+    ============================================================ */
+    #scrollTop {
+      position: fixed; bottom: 28px; right: 28px;
+      width: 44px; height: 44px;
+      background: var(--accent); color: #fff;
+      border: none; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; cursor: pointer;
+      opacity: 0; transform: translateY(16px);
+      transition: var(--transition); z-index: 999;
+      box-shadow: 0 4px 16px rgba(45,106,79,0.35);
+    }
+    #scrollTop.visible { opacity: 1; transform: translateY(0); }
+    #scrollTop:hover { background: #1b4332; }
+
+    /* ============================================================
+       SCROLL REVEAL
+    ============================================================ */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* RESPONSIVE */
+    @media (max-width: 575px) {
+      .cta-banner { padding: 36px 24px; }
+      .card-body-custom { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== SCROLL TO TOP ===== -->
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <i class="fas fa-arrow-up"></i>
+</button>
+
+<!-- ============================================================
+     NAVBAR
+============================================================ -->
+<nav class="navbar-custom">
+  <div class="container">
+    <div class="d-flex align-items-center justify-content-between gap-3">
+      <a href="todo.html" class="brand">
+        <span class="brand-dot"></span>MyTodo
+      </a>
+      <div class="d-none d-md-flex align-items-center gap-1">
+        <a href="{{url_for('hello_world')}}"  class="nav-link-custom"><i class="fas fa-home me-1"></i>Home</a>
+        <a href="{{url_for('about')}}" class="nav-link-custom active"><i class="fas fa-info-circle me-1"></i>About</a>
+        <a href="#features"  class="nav-link-custom"><i class="fas fa-star me-1"></i>Features</a>
+        <a href="{{url_for('contact')}}"      class="nav-link-custom"><i class="fas fa-users me-1"></i>Contact Us</a>
+        <a href="#faq"       class="nav-link-custom"><i class="fas fa-question-circle me-1"></i>FAQ</a>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <input class="search-box d-none d-sm-block" type="search" placeholder="Search…"/>
+        <button class="btn-search"><i class="fas fa-search"></i></button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================
+     PAGE HEADER
+============================================================ -->
+<div class="page-header">
+  <div class="container">
+    <div class="d-flex align-items-end justify-content-between flex-wrap gap-4">
+      <div>
+        <div class="header-eyebrow"><i class="fas fa-seedling"></i> Our Story</div>
+        <h1>We built <span>MyTodo</span><br>so you can focus.</h1>
+        <p>A simple, beautiful task manager built for people who want to spend less time planning and more time doing.</p>
+      </div>
+      <div class="d-flex gap-2 flex-wrap pb-3">
+        <div class="stats-pill"><i class="fas fa-users"></i> 50k+ users</div>
+        <div class="stats-pill"><i class="fas fa-globe"></i> 30+ countries</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     STATS STRIP
+============================================================ -->
+<div class="container" style="padding-top:36px;">
+  <div class="intro-strip reveal">
+    <div class="intro-cell"><div class="num">50k+</div><div class="lbl">Active Users</div></div>
+    <div class="intro-cell"><div class="num">2M+</div><div class="lbl">Tasks Completed</div></div>
+    <div class="intro-cell"><div class="num">4.9★</div><div class="lbl">Average Rating</div></div>
+    <div class="intro-cell"><div class="num">100%</div><div class="lbl">Free to Use</div></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MISSION
+============================================================ -->
+<section id="mission">
+  <div class="container">
+    <div class="mission-layout">
+      <!-- Left -->
+      <div class="reveal">
+        <div class="section-eyebrow"><i class="fas fa-bullseye"></i> Mission</div>
+        <h2 class="section-title">Built for <strong>real life.</strong><br>Not just productivity.</h2>
+        <p class="section-desc">Most to-do apps are either bloated with features you'll never use, or too simple to handle how your life actually works. MyTodo hits the sweet spot — powerful enough for complex projects, simple enough you'll actually use it every day.</p>
+        <div class="mission-pill-grid">
+          <div class="mission-pill">
+            <div class="pill-icon"><i class="fas fa-bolt"></i></div>
+            <div><h4>Lightning Fast</h4><p>Add a task in under 2 seconds, anywhere.</p></div>
+          </div>
+          <div class="mission-pill">
+            <div class="pill-icon"><i class="fas fa-lock"></i></div>
+            <div><h4>Private by Design</h4><p>Your data lives on your device, not our servers.</p></div>
+          </div>
+          <div class="mission-pill">
+            <div class="pill-icon"><i class="fas fa-palette"></i></div>
+            <div><h4>Beautifully Simple</h4><p>Clean, calm UI that doesn't overwhelm.</p></div>
+          </div>
+          <div class="mission-pill">
+            <div class="pill-icon"><i class="fas fa-infinity"></i></div>
+            <div><h4>Always Free</h4><p>Core features free forever. No credit card.</p></div>
+          </div>
+        </div>
+      </div>
+      <!-- Right -->
+      <div class="reveal reveal-delay-2">
+        <div class="quote-block mb-4">
+          <p>"The secret of getting ahead is getting started. MyTodo helps you start."</p>
+          <cite>— The MyTodo Team</cite>
+        </div>
+        <div class="card-custom">
+          <div class="card-header-custom">
+            <div class="card-title">
+              <div class="icon"><i class="fas fa-chart-line"></i></div>
+              Why People Stick With Us
+            </div>
+          </div>
+          <div class="card-body-custom">
+            <div style="display:flex;flex-direction:column;gap:16px;">
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:0.8rem;font-weight:600;margin-bottom:6px;"><span>Ease of Use</span><span style="color:var(--accent)">97%</span></div>
+                <div style="height:6px;background:var(--surface2);border-radius:100px;overflow:hidden;"><div class="pbar" data-w="97" style="height:100%;background:linear-gradient(90deg,var(--accent-light),var(--accent));border-radius:100px;width:0%;transition:width 1.2s cubic-bezier(0.25,0.46,0.45,0.94);"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:0.8rem;font-weight:600;margin-bottom:6px;"><span>Daily Active Usage</span><span style="color:var(--accent)">89%</span></div>
+                <div style="height:6px;background:var(--surface2);border-radius:100px;overflow:hidden;"><div class="pbar" data-w="89" style="height:100%;background:linear-gradient(90deg,var(--accent-light),var(--accent));border-radius:100px;width:0%;transition:width 1.4s cubic-bezier(0.25,0.46,0.45,0.94);"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:0.8rem;font-weight:600;margin-bottom:6px;"><span>Would Recommend</span><span style="color:var(--accent)">94%</span></div>
+                <div style="height:6px;background:var(--surface2);border-radius:100px;overflow:hidden;"><div class="pbar" data-w="94" style="height:100%;background:linear-gradient(90deg,var(--accent-light),var(--accent));border-radius:100px;width:0%;transition:width 1.6s cubic-bezier(0.25,0.46,0.45,0.94);"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     STORY / TIMELINE
+============================================================ -->
+<section id="story" style="background:var(--surface2);">
+  <div class="container">
+    <div class="row g-5 align-items-start">
+      <div class="col-lg-4 reveal">
+        <div class="section-eyebrow"><i class="fas fa-book-open"></i> Our Journey</div>
+        <h2 class="section-title">A small idea that <strong>kept growing.</strong></h2>
+        <p class="section-desc">From a weekend hackathon project to a tool used by tens of thousands — here's how MyTodo came to be.</p>
+      </div>
+      <div class="col-lg-8 reveal reveal-delay-2">
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-year">2020 — Weekend Hackathon</div>
+            <h4>The First Version</h4>
+            <p>Two developers, one weekend, zero sleep. A raw but functional todo app built in Django to scratch their own itch — tracking tasks without features they'd never need.</p>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-year">2021 — Open Beta</div>
+            <h4>First 1,000 Users</h4>
+            <p>After sharing on a developer forum, MyTodo attracted its first thousand users within a week. Feedback shaped priority tagging, categories, and due-date reminders.</p>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-year">2022 — Design Overhaul</div>
+            <h4>Beautiful Gets Useful</h4>
+            <p>A complete redesign made MyTodo feel as good as it worked. The warm earthy palette and Plus Jakarta Sans typeface became the app's identity.</p>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-year">2023 — 25k Users</div>
+            <h4>Word of Mouth Takes Over</h4>
+            <p>No ads. No growth hacks. Just people sharing a tool they genuinely loved — students, freelancers, remote teams, and small businesses alike.</p>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-year">2024 — Today</div>
+            <h4>50k+ and Counting</h4>
+            <p>MyTodo is used in 30+ countries. The mission stays the same: help you spend less time managing tasks and more time actually doing them.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FEATURES
+============================================================ -->
+<section id="features">
+  <div class="container">
+    <div class="text-center mb-5 reveal">
+      <div class="section-eyebrow"><i class="fas fa-star"></i> Features</div>
+      <h2 class="section-title">Everything you need.<br><strong>Nothing you don't.</strong></h2>
+      <p class="section-desc mx-auto">MyTodo is intentionally lean. Every feature earns its place by making your workflow genuinely better.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon"><i class="fas fa-plus"></i></div>
+        <h3>Instant Task Creation</h3>
+        <p>Hit Enter and it's done. Add title, description, priority, category and due date in one smooth form — no popups, no friction.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-icon"><i class="fas fa-tags"></i></div>
+        <h3>Smart Prioritization</h3>
+        <p>High, medium, and low priority labels with colour-coded visual cues so the most important work always stands out at a glance.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-icon"><i class="fas fa-folder"></i></div>
+        <h3>Categories & Filters</h3>
+        <p>Organize tasks by Personal, Work, Shopping, Health or Study. Filter instantly — no page reloads, no waiting.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-icon"><i class="fas fa-calendar-check"></i></div>
+        <h3>Due Date Tracking</h3>
+        <p>Tasks show "Today" or "Overdue" automatically so nothing slips through the cracks. Your deadlines are always visible.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-icon"><i class="fas fa-search"></i></div>
+        <h3>Live Search</h3>
+        <p>Type in the search bar and results highlight in real time across titles and descriptions. Find any task in under a second.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-3">
+        <div class="feature-icon"><i class="fas fa-database"></i></div>
+        <h3>Offline Storage</h3>
+        <p>All your tasks are saved to localStorage — no account needed, no internet required. Your data, your device, your privacy.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     HOW IT WORKS
+============================================================ -->
+<section style="padding:72px 0;background:var(--surface2);">
+  <div class="container">
+    <div class="text-center mb-5 reveal">
+      <div class="section-eyebrow"><i class="fas fa-map"></i> How It Works</div>
+      <h2 class="section-title">Up and running in<br><strong>four steps.</strong></h2>
+    </div>
+    <div class="steps-wrap reveal">
+      <div class="step-cell">
+        <div class="step-num">01</div>
+        <div class="step-icon"><i class="fas fa-pen-to-square"></i></div>
+        <h4>Write Your Task</h4>
+        <p>Type what needs to be done, add a note if needed, and set a due date.</p>
+      </div>
+      <div class="step-cell">
+        <div class="step-num">02</div>
+        <div class="step-icon"><i class="fas fa-sliders"></i></div>
+        <h4>Set Priority</h4>
+        <p>Choose High, Medium or Low so you always know what to tackle first.</p>
+      </div>
+      <div class="step-cell">
+        <div class="step-num">03</div>
+        <div class="step-icon"><i class="fas fa-list-check"></i></div>
+        <h4>Work Through It</h4>
+        <p>Filter by category or due date, then check tasks off one by one.</p>
+      </div>
+      <div class="step-cell">
+        <div class="step-num">04</div>
+        <div class="step-icon"><i class="fas fa-chart-pie"></i></div>
+        <h4>Track Progress</h4>
+        <p>Watch your completion bar fill up and celebrate getting things done.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TEAM
+============================================================ -->
+<section id="team">
+  <div class="container">
+    <div class="text-center mb-5 reveal">
+      <div class="section-eyebrow"><i class="fas fa-users"></i> The Team</div>
+      <h2 class="section-title">Small team.<br><strong>Big care.</strong></h2>
+      <p class="section-desc mx-auto">Four people who believe software should feel like it was made by humans, for humans.</p>
+    </div>
+    <div class="team-grid">
+      <div class="team-card reveal">
+        <div class="team-avatar-wrap">
+          <div class="team-avatar">A</div>
+          <div class="team-role-badge">Founder & Dev</div>
+        </div>
+        <div class="team-info">
+          <div class="team-name">Aryan Sharma</div>
+          <div class="team-bio">Full-stack Django developer who started MyTodo in a single weekend. Obsessed with clean code and cleaner UIs.</div>
+          <div class="team-socials">
+            <a href="#" class="team-social-btn"><i class="fab fa-github"></i></a>
+            <a href="#" class="team-social-btn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" class="team-social-btn"><i class="fab fa-twitter"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="team-card reveal reveal-delay-1">
+        <div class="team-avatar-wrap">
+          <div class="team-avatar" style="background:var(--warn);">P</div>
+          <div class="team-role-badge">UI / UX</div>
+        </div>
+        <div class="team-info">
+          <div class="team-name">Priya Nair</div>
+          <div class="team-bio">Designer who believes every pixel has a purpose. Responsible for MyTodo's warm, calm visual identity.</div>
+          <div class="team-socials">
+            <a href="#" class="team-social-btn"><i class="fab fa-dribbble"></i></a>
+            <a href="#" class="team-social-btn"><i class="fab fa-behance"></i></a>
+            <a href="#" class="team-social-btn"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="team-card reveal reveal-delay-2">
+        <div class="team-avatar-wrap">
+          <div class="team-avatar" style="background:#6b4c9a;">R</div>
+          <div class="team-role-badge">Backend</div>
+        </div>
+        <div class="team-info">
+          <div class="team-name">Rohan Gupta</div>
+          <div class="team-bio">Backend wizard keeping MyTodo fast, secure and reliable. Python & Django REST Framework specialist.</div>
+          <div class="team-socials">
+            <a href="#" class="team-social-btn"><i class="fab fa-github"></i></a>
+            <a href="#" class="team-social-btn"><i class="fab fa-stack-overflow"></i></a>
+            <a href="#" class="team-social-btn"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="team-card reveal reveal-delay-3">
+        <div class="team-avatar-wrap">
+          <div class="team-avatar" style="background:var(--danger);">S</div>
+          <div class="team-role-badge">Community</div>
+        </div>
+        <div class="team-info">
+          <div class="team-name">Sara Malik</div>
+          <div class="team-bio">Bridges the gap between users and developers. Manages feedback, writes docs, and keeps the community happy.</div>
+          <div class="team-socials">
+            <a href="#" class="team-social-btn"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="team-social-btn"><i class="fab fa-reddit"></i></a>
+            <a href="#" class="team-social-btn"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TESTIMONIALS
+============================================================ -->
+<section style="padding:72px 0;background:var(--surface2);">
+  <div class="container">
+    <div class="text-center mb-5 reveal">
+      <div class="section-eyebrow"><i class="fas fa-comment-dots"></i> Reviews</div>
+      <h2 class="section-title">Loved by people<br><strong>just like you.</strong></h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testi-card reveal">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"I've tried Notion, Todoist, and a dozen others. MyTodo is the only one I actually open every morning. The design just feels right."</div>
+        <div class="testi-author">
+          <div class="testi-avatar">KM</div>
+          <div><div class="testi-name">Kavya Menon</div><div class="testi-role">Freelance Designer, Bangalore</div></div>
+        </div>
+      </div>
+      <div class="testi-card reveal reveal-delay-1">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"As a Django developer myself I appreciate how clean the codebase is. The UI is buttery smooth. Recommended it to my whole team."</div>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:var(--warn);">JL</div>
+          <div><div class="testi-name">Jake Liu</div><div class="testi-role">Software Engineer, Singapore</div></div>
+        </div>
+      </div>
+      <div class="testi-card reveal reveal-delay-2">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"The priority + category system is exactly what my chaotic brain needed. I finally feel in control of my day. Can't imagine going back."</div>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:#6b4c9a;">AS</div>
+          <div><div class="testi-name">Amara Sow</div><div class="testi-role">Student, Paris</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FAQ
+============================================================ -->
+<section id="faq">
+  <div class="container">
+    <div class="row g-5 align-items-start">
+      <div class="col-lg-4 reveal">
+        <div class="section-eyebrow"><i class="fas fa-question"></i> FAQ</div>
+        <h2 class="section-title">Questions?<br><strong>We've got answers.</strong></h2>
+        <p class="section-desc">Can't find what you're looking for? Drop us a message and we'll reply within 24 hours.</p>
+        <a href="mailto:hello@mytodo.app" class="btn-cta-primary mt-4 d-inline-flex" style="background:var(--accent);color:#fff;">
+          <i class="fas fa-envelope"></i> Contact Us
+        </a>
+      </div>
+      <div class="col-lg-8 reveal reveal-delay-2">
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">Is MyTodo really free?<div class="faq-chevron"><i class="fas fa-chevron-down"></i></div></div>
+          <div class="faq-answer"><p>Yes — 100% free, forever. Core task management will never go behind a paywall. We believe everyone deserves great productivity tools regardless of budget.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">Do I need an account to use it?<div class="faq-chevron"><i class="fas fa-chevron-down"></i></div></div>
+          <div class="faq-answer"><p>No account needed. Your tasks are saved directly to your browser's localStorage. Open the app and start adding tasks — no sign-up, no email, no password required.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">Will my tasks disappear if I clear my browser?<div class="faq-chevron"><i class="fas fa-chevron-down"></i></div></div>
+          <div class="faq-answer"><p>If you clear your browser's site data, yes — localStorage is wiped. We recommend exporting your tasks regularly. A cloud sync feature is on our roadmap for 2025.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">Is MyTodo built with Django?<div class="faq-chevron"><i class="fas fa-chevron-down"></i></div></div>
+          <div class="faq-answer"><p>The frontend templates use Django's templating engine (django-html). The full backend is Python + Django with a REST API. The current demo runs as a standalone HTML file using localStorage.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">Can I contribute to MyTodo?<div class="faq-chevron"><i class="fas fa-chevron-down"></i></div></div>
+          <div class="faq-answer"><p>Absolutely! MyTodo is open source. Fork the repo on GitHub, open an issue, or submit a pull request. All contributions are welcome — code, design, docs, or bug reports.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">What's coming next?<div class="faq-chevron"><i class="fas fa-chevron-down"></i></div></div>
+          <div class="faq-answer"><p>On the roadmap: cloud sync, recurring tasks, drag-and-drop reordering, dark mode, and a mobile app. Follow us on GitHub to track progress and vote on features.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CTA BANNER
+============================================================ -->
+<section style="padding:72px 0;">
+  <div class="container reveal">
+    <div class="cta-banner">
+      <h2>Ready to get things done?</h2>
+      <p>Join 50,000+ people who use MyTodo to stay on top of their day — for free, forever.</p>
+      <div class="d-flex gap-3 justify-content-center flex-wrap">
+        <a href="todo.html" class="btn-cta-primary"><i class="fas fa-rocket"></i> Open MyTodo</a>
+        <a href="https://github.com" target="_blank" class="btn-cta-ghost"><i class="fab fa-github"></i> View on GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer>
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-4">
+        <div class="footer-brand"><span class="brand-dot"></span>MyTodo</div>
+        <p class="footer-desc">A simple, beautiful task manager. Built with Django & ❤️. Free forever.</p>
+      </div>
+      <div class="col-6 col-md-3 col-lg-2">
+        <div class="footer-heading">Product</div>
+        <ul class="footer-links">
+          <li><a href="todo.html"><i class="fas fa-chevron-right" style="font-size:.6rem"></i>Task Board</a></li>
+          <li><a href="#features"><i class="fas fa-chevron-right" style="font-size:.6rem"></i>Features</a></li>
+          <li><a href="#faq"><i class="fas fa-chevron-right" style="font-size:.6rem"></i>FAQ</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right" style="font-size:.6rem"></i>Roadmap</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-md-3 col-lg-2">
+        <div class="footer-heading">Company</div>
+        <ul class="footer-links">
+          <li><a href="about.html"><i class="fas fa-chevron-right" style="font-size:.6rem"></i>About</a></li>
+          <li><a href="#team"><i class="fas fa-chevron-right" style="font-size:.6rem"></i>Team</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right" style="font-size:.6rem"></i>Blog</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right" style="font-size:.6rem"></i>Careers</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-md-3 col-lg-2">
+        <div class="footer-heading">Legal</div>
+        <ul class="footer-links">
+          <li><a href="#"><i class="fas fa-chevron-right" style="font-size:.6rem"></i>Privacy</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right" style="font-size:.6rem"></i>Terms</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right" style="font-size:.6rem"></i>Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 MyTodo. Made with Django & Bootstrap. Free, open-source.</p>
+      <div class="social-row">
+        <a href="#" class="social-btn"><i class="fab fa-github"></i></a>
+        <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="social-btn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" class="social-btn"><i class="fab fa-reddit"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  /* ===== SCROLL TO TOP ===== */
+  window.addEventListener('scroll', () => {
+    document.getElementById('scrollTop').classList.toggle('visible', window.scrollY > 300);
+  });
+
+  /* ===== SCROLL REVEAL ===== */
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  /* ===== PROGRESS BARS ===== */
+  const barObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.style.width = e.target.dataset.w + '%'; barObs.unobserve(e.target); } });
+  }, { threshold: 0.3 });
+  document.querySelectorAll('.pbar').forEach(el => barObs.observe(el));
+
+  /* ===== FAQ ===== */
+  function toggleFaq(el) {
+    const item = el.parentElement;
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  }
+</script>
+</body>
+</html>
