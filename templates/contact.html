@@ -7,14 +7,14 @@
 
   <!-- Bootstrap 5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
-  <!-- Google Fonts -->
+  <!-- Google Fonts — same as site -->
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
   <style>
     /* ============================================================
-       DESIGN TOKENS — identical to about.html & todo.html
+       DESIGN TOKENS — identical across all pages
     ============================================================ */
     :root {
       --bg:           #f5f3ee;
@@ -137,30 +137,25 @@
       position: relative;
     }
     .page-header h1 span {
-      font-style: normal; font-family: var(--font);
-      font-weight: 800;
+      font-style: normal; font-family: var(--font); font-weight: 800;
     }
     .page-header p {
       color: rgba(255,255,255,0.72); font-size: 1rem;
-      margin-top: 12px; max-width: 520px; line-height: 1.7;
+      margin-top: 12px; max-width: 480px; line-height: 1.7;
       position: relative;
+    }
+    .stats-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 100px; padding: 6px 16px;
+      font-size: 0.8rem; color: #fff; font-weight: 500;
     }
 
     /* ============================================================
-       SHARED CARDS & COMPONENTS
+       SECTION UTILITY
     ============================================================ */
-    .card-custom {
-      background: var(--surface);
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-      transition: var(--transition);
-    }
-    .card-custom:hover { box-shadow: var(--shadow-hover); transform: translateY(-3px); }
-    .card-body-custom { padding: 36px 40px; }
-    
-    section { padding: 72px 0; }
     .section-eyebrow {
       display: inline-flex; align-items: center; gap: 8px;
       background: var(--accent-pale); border-radius: 100px;
@@ -171,7 +166,7 @@
     }
     .section-title {
       font-family: var(--font-serif);
-      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
       font-style: italic; line-height: 1.15; color: var(--text);
       margin-bottom: 14px;
     }
@@ -180,119 +175,368 @@
     }
     .section-desc {
       color: var(--text-muted); font-size: 1rem; line-height: 1.8;
-      max-width: 560px;
     }
 
     /* ============================================================
-       CONTACT SPECIFIC STYLES
+       CARD
     ============================================================ */
-    .contact-info-wrap {
-      display: flex; flex-direction: column; gap: 32px;
-      margin-top: 40px;
-    }
-    .contact-info-block {
-      display: flex; align-items: flex-start; gap: 16px;
-    }
-    .info-icon {
-      width: 52px; height: 52px; min-width: 52px;
-      background: var(--accent-pale); border-radius: 14px;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--accent); font-size: 1.25rem;
+    .card-custom {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      overflow: hidden;
       transition: var(--transition);
     }
-    .contact-info-block:hover .info-icon {
-      background: var(--accent); color: #fff; transform: scale(1.05);
+    .card-header-custom {
+      padding: 22px 28px 18px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 10px;
     }
-    .info-content h4 { font-size: 1.05rem; font-weight: 700; margin-bottom: 4px; color: var(--text); }
-    .info-content p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 0; }
-    .info-content a { color: var(--accent); text-decoration: none; font-weight: 600; transition: var(--transition); }
-    .info-content a:hover { color: var(--accent-light); }
-
-    /* Form Styles */
-    .form-label-custom {
-      font-size: 0.85rem; font-weight: 700; color: var(--text); 
-      margin-bottom: 8px; display: block; text-transform: uppercase; letter-spacing: 0.5px;
+    .card-title {
+      font-size: 1rem; font-weight: 700; color: var(--text);
+      display: flex; align-items: center; gap: 8px;
     }
-    .form-control-custom {
-      width: 100%; border: 1.5px solid var(--border); border-radius: 12px;
-      padding: 14px 18px; font-family: var(--font); font-size: 0.95rem;
-      background: var(--bg); color: var(--text); transition: var(--transition);
-    }
-    .form-control-custom:focus {
-      outline: none; border-color: var(--accent-light);
-      box-shadow: 0 0 0 4px rgba(82,183,136,0.15); background: var(--surface);
-    }
-    .form-control-custom::placeholder { color: #a1a1aa; }
-    textarea.form-control-custom { resize: vertical; min-height: 140px; }
-
-    .btn-submit-custom {
-      background: var(--accent); color: #fff; border: none;
-      border-radius: 12px; padding: 14px 32px; width: 100%;
-      font-family: var(--font); font-size: 1rem; font-weight: 700;
-      cursor: pointer; transition: var(--transition);
-      display: flex; align-items: center; justify-content: center; gap: 10px;
-    }
-    .btn-submit-custom:hover { background: #1b4332; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(45,106,79,0.25); }
-    .btn-submit-custom:active { transform: translateY(0); }
-
-    /* Social Banner */
-    .social-banner {
-      background: var(--surface); border: 1.5px solid var(--border);
-      border-radius: var(--radius); padding: 32px;
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 20px; box-shadow: var(--shadow);
-    }
-    .social-banner-text h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 4px; }
-    .social-banner-text p { font-size: 0.9rem; color: var(--text-muted); margin: 0; }
-    .social-links-lg { display: flex; gap: 12px; }
-    .social-btn-lg {
-      width: 48px; height: 48px; border: 1.5px solid var(--border); border-radius: 12px;
+    .card-title .icon {
+      width: 32px; height: 32px;
+      background: var(--accent-pale); border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
-      color: var(--text-muted); font-size: 1.2rem; text-decoration: none; transition: var(--transition);
-      background: var(--bg);
+      color: var(--accent); font-size: 0.85rem;
     }
-    .social-btn-lg:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-pale); transform: translateY(-3px); }
+    .card-body-custom { padding: 28px; }
 
     /* ============================================================
-       CTA BANNER & FOOTER
+       CONTACT FORM
     ============================================================ */
-    .cta-banner {
-      background: linear-gradient(135deg, var(--accent) 0%, #1b4332 100%);
-      border-radius: var(--radius); padding: 56px 48px;
-      text-align: center; position: relative; overflow: hidden;
+    .form-label-custom {
+      font-size: 0.78rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.8px;
+      color: var(--text-muted); margin-bottom: 6px; display: block;
     }
-    .cta-banner::before {
-      content: ''; position: absolute; inset: 0;
+    .form-control-custom {
+      width: 100%;
+      border: 1.5px solid var(--border); border-radius: 10px;
+      padding: 11px 14px; font-family: var(--font);
+      font-size: 0.92rem; color: var(--text);
+      background: var(--bg); transition: var(--transition);
+      outline: none;
+    }
+    .form-control-custom:focus {
+      border-color: var(--accent-light);
+      background: var(--surface);
+      box-shadow: 0 0 0 3px rgba(82,183,136,0.15);
+    }
+    .form-control-custom.error { border-color: var(--danger); box-shadow: 0 0 0 3px rgba(230,57,70,0.12); }
+    .form-control-custom.success { border-color: var(--accent-light); box-shadow: 0 0 0 3px rgba(82,183,136,0.12); }
+    textarea.form-control-custom { resize: vertical; min-height: 130px; }
+    select.form-control-custom { cursor: pointer; }
+    .form-group { margin-bottom: 20px; position: relative; }
+    .form-error { font-size: 0.75rem; color: var(--danger); margin-top: 5px; display: none; }
+    .form-error.show { display: block; }
+    .char-count { font-size: 0.72rem; color: var(--text-muted); text-align: right; margin-top: 4px; }
+
+    .input-icon-wrap { position: relative; }
+    .input-icon-wrap .input-icon {
+      position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+      color: var(--text-muted); font-size: 0.85rem; pointer-events: none;
+      transition: color 0.2s;
+    }
+    .input-icon-wrap .form-control-custom { padding-left: 38px; }
+    .input-icon-wrap .form-control-custom:focus + .input-icon,
+    .input-icon-wrap:focus-within .input-icon { color: var(--accent); }
+
+    .btn-submit {
+      width: 100%;
+      background: var(--accent); color: #fff;
+      border: none; border-radius: 10px;
+      padding: 14px; font-family: var(--font);
+      font-size: 0.95rem; font-weight: 700;
+      cursor: pointer; transition: var(--transition);
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      position: relative; overflow: hidden;
+    }
+    .btn-submit::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: #1b4332;
+      transform: translateX(-100%);
+      transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .btn-submit:hover::before { transform: translateX(0); }
+    .btn-submit span { position: relative; z-index: 1; display: flex; align-items: center; gap: 10px; }
+    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(45,106,79,0.35); }
+    .btn-submit:active { transform: translateY(0); }
+    .btn-submit.loading { pointer-events: none; opacity: 0.8; }
+
+    /* Topic chips */
+    .topic-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 6px; }
+    .topic-chip {
+      padding: 6px 14px; border-radius: 100px;
+      border: 1.5px solid var(--border);
+      background: var(--surface); color: var(--text-muted);
+      font-size: 0.78rem; font-weight: 600;
+      cursor: pointer; transition: var(--transition);
+      user-select: none;
+    }
+    .topic-chip:hover   { border-color: var(--accent-light); color: var(--accent); }
+    .topic-chip.active  { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    /* Rating stars */
+    .star-rating { display: flex; gap: 6px; flex-direction: row-reverse; justify-content: flex-end; }
+    .star-rating input { display: none; }
+    .star-rating label {
+      font-size: 1.6rem; color: var(--border);
+      cursor: pointer; transition: color 0.15s;
+    }
+    .star-rating input:checked ~ label,
+    .star-rating label:hover,
+    .star-rating label:hover ~ label { color: var(--warn); }
+
+    /* ============================================================
+       SUCCESS STATE
+    ============================================================ */
+    #successState {
+      display: none; text-align: center; padding: 48px 28px;
+    }
+    .success-icon {
+      width: 80px; height: 80px;
+      background: var(--accent-pale); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; color: var(--accent);
+      margin: 0 auto 20px;
+      animation: popIn 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;
+    }
+    @keyframes popIn {
+      from { transform: scale(0); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+    #successState h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 8px; }
+    #successState p  { color: var(--text-muted); font-size: 0.92rem; line-height: 1.7; }
+    .btn-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--accent-pale); color: var(--accent);
+      border: 1.5px solid var(--accent-light);
+      border-radius: 10px; padding: 10px 22px;
+      font-family: var(--font); font-size: 0.88rem; font-weight: 700;
+      cursor: pointer; transition: var(--transition); margin-top: 20px;
+    }
+    .btn-back:hover { background: var(--accent); color: #fff; }
+
+    /* ============================================================
+       INFO CARDS
+    ============================================================ */
+    .info-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      display: flex; align-items: flex-start; gap: 18px;
+      transition: var(--transition);
+      text-decoration: none; color: inherit;
+    }
+    .info-card:hover {
+      border-color: var(--accent-light);
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-3px);
+      color: inherit;
+    }
+    .info-icon {
+      width: 48px; height: 48px; min-width: 48px;
+      background: var(--accent-pale); border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent); font-size: 1.2rem;
+      transition: var(--transition);
+    }
+    .info-card:hover .info-icon { background: var(--accent); color: #fff; }
+    .info-label {
+      font-size: 0.72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1.5px;
+      color: var(--text-muted); margin-bottom: 4px;
+    }
+    .info-value { font-size: 0.97rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .info-sub   { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; }
+
+    /* ============================================================
+       OFFICE HOURS
+    ============================================================ */
+    .hours-table { width: 100%; }
+    .hours-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.88rem;
+    }
+    .hours-row:last-child { border-bottom: none; }
+    .hours-day  { font-weight: 600; color: var(--text); }
+    .hours-time { color: var(--text-muted); }
+    .hours-badge {
+      font-size: 0.65rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1px;
+      padding: 2px 8px; border-radius: 100px;
+    }
+    .badge-open   { background: var(--accent-pale);  color: var(--accent); }
+    .badge-closed { background: var(--surface2);      color: var(--text-muted); }
+
+    /* ============================================================
+       SOCIAL LINKS
+    ============================================================ */
+    .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .social-link-card {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 10px; padding: 14px 16px;
+      text-decoration: none; color: var(--text);
+      transition: var(--transition);
+    }
+    .social-link-card:hover { border-color: var(--accent-light); background: var(--accent-pale); color: var(--accent); }
+    .social-link-card .si {
+      width: 36px; height: 36px;
+      background: var(--surface2); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; color: var(--text-muted);
+      transition: var(--transition);
+    }
+    .social-link-card:hover .si { background: var(--accent); color: #fff; }
+    .social-link-card .sn { font-size: 0.85rem; font-weight: 700; }
+    .social-link-card .sh { font-size: 0.72rem; color: var(--text-muted); }
+
+    /* ============================================================
+       MAP PLACEHOLDER
+    ============================================================ */
+    .map-wrap {
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      height: 220px;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 10px;
+      position: relative;
+    }
+    .map-wrap::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        repeating-linear-gradient(0deg,   var(--border) 0, var(--border) 1px, transparent 1px, transparent 40px),
+        repeating-linear-gradient(90deg,  var(--border) 0, var(--border) 1px, transparent 1px, transparent 40px);
+      opacity: 0.5;
+    }
+    .map-pin {
+      width: 44px; height: 44px;
+      background: var(--accent); border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 6px 20px rgba(45,106,79,0.4);
+      position: relative;
+      animation: pinBounce 1.6s ease-in-out infinite;
+    }
+    .map-pin i { transform: rotate(45deg); color: #fff; font-size: 0.9rem; }
+    @keyframes pinBounce {
+      0%,100% { transform: rotate(-45deg) translateY(0); }
+      50%      { transform: rotate(-45deg) translateY(-6px); }
+    }
+    .map-label {
+      font-size: 0.78rem; font-weight: 700;
+      color: var(--text); background: var(--surface);
+      padding: 4px 12px; border-radius: 100px;
+      border: 1px solid var(--border); position: relative;
+    }
+
+    /* ============================================================
+       NEWSLETTER STRIP
+    ============================================================ */
+    .newsletter-strip {
+      background: linear-gradient(135deg, var(--accent) 0%, #1b4332 100%);
+      border-radius: var(--radius);
+      padding: 40px 44px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 28px; flex-wrap: wrap;
+      position: relative; overflow: hidden;
+    }
+    .newsletter-strip::before {
+      content: '';
+      position: absolute; inset: 0;
       background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     }
-    .cta-banner h2 {
-      font-family: var(--font-serif); font-size: clamp(1.8rem, 3.5vw, 2.6rem);
-      font-style: italic; color: #fff; margin-bottom: 12px; position: relative;
+    .nl-text { position: relative; }
+    .nl-text h3 {
+      font-family: var(--font-serif);
+      font-size: 1.4rem; font-style: italic; color: #fff;
+      margin-bottom: 4px;
     }
-    .cta-banner p {
-      color: rgba(255,255,255,0.75); font-size: 1rem; line-height: 1.7;
-      max-width: 480px; margin: 0 auto 28px; position: relative;
+    .nl-text p { color: rgba(255,255,255,0.7); font-size: 0.88rem; }
+    .nl-form { display: flex; gap: 10px; flex-wrap: wrap; position: relative; }
+    .nl-input {
+      border: 1.5px solid rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.12);
+      color: #fff; border-radius: 10px;
+      padding: 11px 18px; font-family: var(--font); font-size: 0.88rem;
+      outline: none; min-width: 240px; transition: var(--transition);
     }
-    .btn-cta-primary {
-      display: inline-flex; align-items: center; gap: 8px;
+    .nl-input::placeholder { color: rgba(255,255,255,0.5); }
+    .nl-input:focus { border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.18); }
+    .nl-btn {
       background: #fff; color: var(--accent);
       border: none; border-radius: 10px;
-      padding: 13px 28px; font-family: var(--font);
-      font-size: 0.9rem; font-weight: 700;
+      padding: 11px 24px; font-family: var(--font);
+      font-size: 0.88rem; font-weight: 700;
       cursor: pointer; transition: var(--transition);
-      text-decoration: none; position: relative;
     }
-    .btn-cta-primary:hover { background: var(--accent-pale); color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
-    .btn-cta-ghost {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: transparent; color: #fff;
-      border: 1.5px solid rgba(255,255,255,0.4);
-      border-radius: 10px; padding: 12px 26px;
-      font-family: var(--font); font-size: 0.9rem; font-weight: 600;
-      cursor: pointer; transition: var(--transition); text-decoration: none; position: relative;
-    }
-    .btn-cta-ghost:hover { border-color: #fff; background: rgba(255,255,255,0.1); color: #fff; }
+    .nl-btn:hover { background: var(--accent-pale); transform: translateY(-1px); }
 
+    /* ============================================================
+       SCROLL REVEAL
+    ============================================================ */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ============================================================
+       SCROLL TO TOP
+    ============================================================ */
+    #scrollTop {
+      position: fixed; bottom: 28px; right: 28px;
+      width: 44px; height: 44px;
+      background: var(--accent); color: #fff;
+      border: none; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; cursor: pointer;
+      opacity: 0; transform: translateY(16px);
+      transition: var(--transition); z-index: 999;
+      box-shadow: 0 4px 16px rgba(45,106,79,0.35);
+    }
+    #scrollTop.visible { opacity: 1; transform: translateY(0); }
+    #scrollTop:hover { background: #1b4332; }
+
+    /* ============================================================
+       TOAST
+    ============================================================ */
+    .toast-wrap {
+      position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+      z-index: 2000; display: flex; flex-direction: column; align-items: center; gap: 8px;
+    }
+    .toast-item {
+      background: var(--text); color: #fff;
+      padding: 12px 24px; border-radius: 10px;
+      font-size: 0.85rem; font-weight: 500;
+      display: flex; align-items: center; gap: 10px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+      animation: toastIn 0.3s ease forwards;
+      white-space: nowrap;
+    }
+    .toast-item.success { background: var(--accent); }
+    .toast-item.error   { background: var(--danger); }
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
     footer {
       background: var(--surface);
       border-top: 1px solid var(--border);
@@ -313,7 +557,7 @@
       display: flex; justify-content: space-between; align-items: center;
       flex-wrap: wrap; gap: 12px;
     }
-    .footer-bottom p { color: var(--text-muted); font-size: 0.82rem; margin: 0; }
+    .footer-bottom p { color: var(--text-muted); font-size: 0.82rem; }
     .social-row { display: flex; gap: 8px; }
     .social-btn {
       width: 36px; height: 36px; border: 1.5px solid var(--border); border-radius: 8px;
@@ -322,37 +566,22 @@
     }
     .social-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-pale); }
 
-    /* Scroll to Top */
-    #scrollTop {
-      position: fixed; bottom: 28px; right: 28px;
-      width: 44px; height: 44px;
-      background: var(--accent); color: #fff;
-      border: none; border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.9rem; cursor: pointer;
-      opacity: 0; transform: translateY(16px);
-      transition: var(--transition); z-index: 999;
-      box-shadow: 0 4px 16px rgba(45,106,79,0.35);
-    }
-    #scrollTop.visible { opacity: 1; transform: translateY(0); }
-    #scrollTop:hover { background: #1b4332; }
-
-    /* Scroll Reveal */
-    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
-
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
     @media (max-width: 575px) {
-      .cta-banner { padding: 36px 24px; }
-      .card-body-custom { padding: 24px; }
+      .card-body-custom { padding: 20px; }
+      .newsletter-strip { padding: 28px 20px; }
+      .nl-input { min-width: 100%; }
     }
   </style>
 </head>
 <body>
 
-<!-- ===== SCROLL TO TOP ===== -->
+<!-- TOAST -->
+<div class="toast-wrap" id="toastWrap"></div>
+
+<!-- SCROLL TO TOP -->
 <button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
   <i class="fas fa-arrow-up"></i>
 </button>
@@ -367,9 +596,10 @@
         <span class="brand-dot"></span>MyTodo
       </a>
       <div class="d-none d-md-flex align-items-center gap-1">
-        <a href="{{url_for('hello_world')}}" class="nav-link-custom"><i class="fas fa-home me-1"></i>Home</a>
-        <a href="{{url_for('about')}}" class="nav-link-custom"><i class="fas fa-info-circle me-1"></i>About</a>
-        <a href="{{url_for('contact')}}" class="nav-link-custom active"><i class="fas fa-envelope me-1"></i>Contact</a>
+        <a href="todo.html"    class="nav-link-custom"><i class="fas fa-home me-1"></i>Home</a>
+        <a href="about.html"   class="nav-link-custom"><i class="fas fa-info-circle me-1"></i>About</a>
+        <a href="contact.html" class="nav-link-custom active"><i class="fas fa-envelope me-1"></i>Contact</a>
+        <a href="todo.html"    class="nav-link-custom" style="background:var(--accent);color:#fff !important;font-weight:700;border-radius:8px;"><i class="fas fa-rocket me-1"></i>Open App</a>
       </div>
       <div class="d-flex align-items-center gap-2">
         <input class="search-box d-none d-sm-block" type="search" placeholder="Search…"/>
@@ -386,139 +616,325 @@
   <div class="container">
     <div class="d-flex align-items-end justify-content-between flex-wrap gap-4">
       <div>
-        <div class="header-eyebrow"><i class="fas fa-paper-plane"></i> Get in Touch</div>
-        <h1>We'd love to hear <span>from you.</span></h1>
-        <p>Whether you have a question about features, pricing, or anything else, our team is ready to answer all your questions.</p>
+        <div class="header-eyebrow"><i class="fas fa-envelope"></i> Get In Touch</div>
+        <h1>We'd love to<br><span>hear from you.</span></h1>
+        <p>Have a question, feedback, or just want to say hello? We read every message and reply within 24 hours.</p>
+      </div>
+      <div class="d-flex gap-2 flex-wrap pb-3">
+        <div class="stats-pill"><i class="fas fa-clock"></i> &lt; 24h reply</div>
+        <div class="stats-pill"><i class="fas fa-heart"></i> Every message read</div>
       </div>
     </div>
   </div>
 </div>
 
 <!-- ============================================================
-     MAIN CONTACT SECTION
+     MAIN CONTENT
 ============================================================ -->
-<section id="contact-content">
-  <div class="container">
-    <div class="row g-5">
-      
-      <!-- Left Column: Info -->
-      <div class="col-lg-5 reveal">
-        <div class="section-eyebrow"><i class="fas fa-comments"></i> Let's Talk</div>
-        <h2 class="section-title">Here to <strong>help you.</strong></h2>
-        <p class="section-desc">Have a question or need some assistance? Fill out the form, and our support team will get back to you within 24 hours.</p>
-        
-        <div class="contact-info-wrap">
-          <div class="contact-info-block reveal reveal-delay-1">
-            <div class="info-icon"><i class="fas fa-envelope"></i></div>
-            <div class="info-content">
-              <h4>Email Us</h4>
-              <p>For general queries and support:</p>
-              <a href="mailto:hello@mytodo.app">hello@mytodo.app</a>
-            </div>
-          </div>
-          
-          <div class="contact-info-block reveal reveal-delay-2">
-            <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
-            <div class="info-content">
-              <h4>Visit Us</h4>
-              <p>Come say hi at our headquarters:</p>
-              <p>128 Productivity Lane<br>Tech Hub, CA 94107</p>
-            </div>
-          </div>
+<div class="container" style="padding-top: 48px; padding-bottom: 72px;">
+  <div class="row g-5 align-items-start">
 
-          <div class="contact-info-block reveal reveal-delay-3">
-            <div class="info-icon"><i class="fas fa-clock"></i></div>
-            <div class="info-content">
-              <h4>Support Hours</h4>
-              <p>Our team is online and ready to help:</p>
-              <p>Monday - Friday<br>9:00 AM - 6:00 PM (EST)</p>
-            </div>
-          </div>
+    <!-- ========= LEFT: CONTACT FORM ========= -->
+    <div class="col-lg-7">
+
+      <!-- Topic quick-select -->
+      <div class="reveal mb-4">
+        <p style="font-size:0.85rem;font-weight:600;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px;">What's this about?</p>
+        <div class="topic-chips">
+          <div class="topic-chip active" onclick="selectTopic(this,'General Question')">💬 General</div>
+          <div class="topic-chip" onclick="selectTopic(this,'Bug Report')">🐛 Bug Report</div>
+          <div class="topic-chip" onclick="selectTopic(this,'Feature Request')">✨ Feature Request</div>
+          <div class="topic-chip" onclick="selectTopic(this,'Feedback')">📝 Feedback</div>
+          <div class="topic-chip" onclick="selectTopic(this,'Partnership')">🤝 Partnership</div>
+          <div class="topic-chip" onclick="selectTopic(this,'Other')">🔍 Other</div>
         </div>
       </div>
 
-      <!-- Right Column: Form -->
-      <div class="col-lg-7 reveal reveal-delay-2">
-        <div class="card-custom">
-          <div class="card-body-custom">
-            <form onsubmit="event.preventDefault(); alert('Form submission simulated successfully!');">
-              <div class="row g-4">
-                <div class="col-md-6">
-                  <label class="form-label-custom" for="firstName">First Name</label>
-                  <input type="text" id="firstName" class="form-control-custom" placeholder="Jane" required>
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label-custom" for="lastName">Last Name</label>
-                  <input type="text" id="lastName" class="form-control-custom" placeholder="Doe" required>
-                </div>
-                <div class="col-12">
-                  <label class="form-label-custom" for="email">Email Address</label>
-                  <input type="email" id="email" class="form-control-custom" placeholder="jane@example.com" required>
-                </div>
-                <div class="col-12">
-                  <label class="form-label-custom" for="subject">Subject</label>
-                  <select id="subject" class="form-control-custom" required>
-                    <option value="" disabled selected>How can we help?</option>
-                    <option value="support">General Support</option>
-                    <option value="bug">Report a Bug</option>
-                    <option value="feature">Feature Request</option>
-                    <option value="billing">Billing Inquiry</option>
-                  </select>
-                </div>
-                <div class="col-12">
-                  <label class="form-label-custom" for="message">Message</label>
-                  <textarea id="message" class="form-control-custom" placeholder="Tell us more about your inquiry..." required></textarea>
-                </div>
-                <div class="col-12 mt-4">
-                  <button type="submit" class="btn-submit-custom">
-                    Send Message <i class="fas fa-paper-plane"></i>
-                  </button>
+      <!-- Form Card -->
+      <div class="card-custom reveal reveal-delay-1">
+        <div class="card-header-custom">
+          <div class="card-title">
+            <div class="icon"><i class="fas fa-paper-plane"></i></div>
+            Send Us a Message
+          </div>
+          <span style="font-size:0.75rem;color:var(--text-muted);">* Required fields</span>
+        </div>
+        <div class="card-body-custom">
+
+          <!-- Success State -->
+          <div id="successState">
+            <div class="success-icon"><i class="fas fa-check"></i></div>
+            <h3>Message Sent! 🎉</h3>
+            <p>Thanks for reaching out. We'll get back to you at <strong id="successEmail"></strong> within 24 hours.</p>
+            <button class="btn-back" onclick="resetForm()">
+              <i class="fas fa-arrow-left"></i> Send Another Message
+            </button>
+          </div>
+
+          <!-- Form -->
+          <form id="contactForm" novalidate>
+            <input type="hidden" id="topicHidden" value="General Question"/>
+
+            <div class="row g-3">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="form-label-custom">First Name *</label>
+                  <div class="input-icon-wrap">
+                    <input type="text" class="form-control-custom" id="firstName" placeholder="Aryan" autocomplete="given-name"/>
+                    <i class="fas fa-user input-icon"></i>
+                  </div>
+                  <div class="form-error" id="firstNameErr">Please enter your first name.</div>
                 </div>
               </div>
-            </form>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="form-label-custom">Last Name *</label>
+                  <div class="input-icon-wrap">
+                    <input type="text" class="form-control-custom" id="lastName" placeholder="Sharma" autocomplete="family-name"/>
+                    <i class="fas fa-user input-icon"></i>
+                  </div>
+                  <div class="form-error" id="lastNameErr">Please enter your last name.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label-custom">Email Address *</label>
+              <div class="input-icon-wrap">
+                <input type="email" class="form-control-custom" id="emailAddr" placeholder="aryan@example.com" autocomplete="email"/>
+                <i class="fas fa-envelope input-icon"></i>
+              </div>
+              <div class="form-error" id="emailErr">Please enter a valid email address.</div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label-custom">Phone Number <span style="font-weight:400;text-transform:none;letter-spacing:0;">(optional)</span></label>
+              <div class="input-icon-wrap">
+                <input type="tel" class="form-control-custom" id="phone" placeholder="+91 98765 43210" autocomplete="tel"/>
+                <i class="fas fa-phone input-icon"></i>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label-custom">Subject *</label>
+              <div class="input-icon-wrap">
+                <input type="text" class="form-control-custom" id="subject" placeholder="What's on your mind?"/>
+                <i class="fas fa-tag input-icon"></i>
+              </div>
+              <div class="form-error" id="subjectErr">Please enter a subject.</div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label-custom">How did you hear about us?</label>
+              <select class="form-control-custom" id="heardFrom">
+                <option value="">— Select an option —</option>
+                <option value="search">Google / Search Engine</option>
+                <option value="social">Social Media</option>
+                <option value="friend">Friend / Colleague</option>
+                <option value="github">GitHub</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label-custom">Your Message *</label>
+              <textarea class="form-control-custom" id="message" placeholder="Tell us everything — we're listening…" maxlength="1000" oninput="updateCharCount(this)"></textarea>
+              <div class="char-count"><span id="charCount">0</span> / 1000</div>
+              <div class="form-error" id="messageErr">Please write a message (at least 20 characters).</div>
+            </div>
+
+            <!-- Rate your experience -->
+            <div class="form-group">
+              <label class="form-label-custom">Rate your experience with MyTodo</label>
+              <div class="star-rating">
+                <input type="radio" id="s5" name="rating" value="5"/><label for="s5"><i class="fas fa-star"></i></label>
+                <input type="radio" id="s4" name="rating" value="4"/><label for="s4"><i class="fas fa-star"></i></label>
+                <input type="radio" id="s3" name="rating" value="3"/><label for="s3"><i class="fas fa-star"></i></label>
+                <input type="radio" id="s2" name="rating" value="2"/><label for="s2"><i class="fas fa-star"></i></label>
+                <input type="radio" id="s1" name="rating" value="1"/><label for="s1"><i class="fas fa-star"></i></label>
+              </div>
+            </div>
+
+            <!-- Consent -->
+            <div class="form-group" style="display:flex;align-items:flex-start;gap:10px;margin-bottom:24px;">
+              <input type="checkbox" id="consent" style="width:16px;height:16px;margin-top:3px;accent-color:var(--accent);flex-shrink:0;cursor:pointer;"/>
+              <label for="consent" style="font-size:0.82rem;color:var(--text-muted);cursor:pointer;line-height:1.6;">
+                I agree to the <a href="#" style="color:var(--accent);">Privacy Policy</a> and consent to being contacted by the MyTodo team regarding my message.
+              </label>
+            </div>
+            <div class="form-error" id="consentErr" style="margin-top:-16px;margin-bottom:16px;">Please accept the privacy policy to continue.</div>
+
+            <button type="button" class="btn-submit" onclick="submitForm()">
+              <span><i class="fas fa-paper-plane"></i> Send Message</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========= RIGHT: INFO SIDEBAR ========= -->
+    <div class="col-lg-5">
+
+      <!-- Response time banner -->
+      <div style="background:var(--accent-pale);border:1.5px solid var(--accent-light);border-radius:var(--radius);padding:16px 20px;display:flex;align-items:center;gap:14px;margin-bottom:24px;" class="reveal">
+        <div style="width:40px;height:40px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <i class="fas fa-bolt" style="color:#fff;"></i>
+        </div>
+        <div>
+          <div style="font-size:0.85rem;font-weight:700;color:var(--accent);">Fast Response Guarantee</div>
+          <div style="font-size:0.78rem;color:var(--text-muted);margin-top:2px;">We reply to every message within 24 hours on business days.</div>
+        </div>
+      </div>
+
+      <!-- Contact methods -->
+      <div class="reveal reveal-delay-1" style="display:flex;flex-direction:column;gap:12px;margin-bottom:24px;">
+
+        <a href="mailto:hello@mytodo.app" class="info-card">
+          <div class="info-icon"><i class="fas fa-envelope"></i></div>
+          <div>
+            <div class="info-label">Email Us</div>
+            <div class="info-value">hello@mytodo.app</div>
+            <div class="info-sub">Best for detailed questions & feedback</div>
+          </div>
+        </a>
+
+        <a href="https://github.com/mytodo" target="_blank" class="info-card">
+          <div class="info-icon"><i class="fab fa-github"></i></div>
+          <div>
+            <div class="info-label">GitHub Issues</div>
+            <div class="info-value">github.com/mytodo</div>
+            <div class="info-sub">Best for bug reports & feature requests</div>
+          </div>
+        </a>
+
+        <a href="https://twitter.com/mytodoapp" target="_blank" class="info-card">
+          <div class="info-icon"><i class="fab fa-twitter"></i></div>
+          <div>
+            <div class="info-label">Twitter / X</div>
+            <div class="info-value">@mytodoapp</div>
+            <div class="info-sub">Quick questions & announcements</div>
+          </div>
+        </a>
+
+        <div class="info-card" style="cursor:default;">
+          <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div>
+            <div class="info-label">Based In</div>
+            <div class="info-value">Ujjain, Madhya Pradesh 🇮🇳</div>
+            <div class="info-sub">Remote-first team · Open source project</div>
           </div>
         </div>
       </div>
 
-    </div>
-  </div>
-</section>
+      <!-- Office Hours -->
+      <div class="card-custom reveal reveal-delay-2" style="margin-bottom:24px;">
+        <div class="card-header-custom">
+          <div class="card-title">
+            <div class="icon"><i class="fas fa-clock"></i></div>
+            Support Hours
+          </div>
+        </div>
+        <div class="card-body-custom" style="padding:20px 24px;">
+          <div class="hours-table">
+            <div class="hours-row">
+              <span class="hours-day">Monday</span>
+              <span class="hours-time">9:00 AM – 6:00 PM IST</span>
+              <span class="hours-badge badge-open">Open</span>
+            </div>
+            <div class="hours-row">
+              <span class="hours-day">Tuesday</span>
+              <span class="hours-time">9:00 AM – 6:00 PM IST</span>
+              <span class="hours-badge badge-open">Open</span>
+            </div>
+            <div class="hours-row">
+              <span class="hours-day">Wednesday</span>
+              <span class="hours-time">9:00 AM – 6:00 PM IST</span>
+              <span class="hours-badge badge-open">Open</span>
+            </div>
+            <div class="hours-row">
+              <span class="hours-day">Thursday</span>
+              <span class="hours-time">9:00 AM – 6:00 PM IST</span>
+              <span class="hours-badge badge-open">Open</span>
+            </div>
+            <div class="hours-row">
+              <span class="hours-day">Friday</span>
+              <span class="hours-time">9:00 AM – 4:00 PM IST</span>
+              <span class="hours-badge badge-open">Open</span>
+            </div>
+            <div class="hours-row">
+              <span class="hours-day">Saturday</span>
+              <span class="hours-time">Async only</span>
+              <span class="hours-badge badge-closed">Limited</span>
+            </div>
+            <div class="hours-row">
+              <span class="hours-day">Sunday</span>
+              <span class="hours-time">Closed</span>
+              <span class="hours-badge badge-closed">Closed</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
-<!-- ============================================================
-     SOCIAL / COMMUNITY BANNER
-============================================================ -->
-<section style="padding: 0 0 72px 0;">
-  <div class="container reveal">
-    <div class="social-banner">
-      <div class="social-banner-text">
-        <h3>Join the Community</h3>
-        <p>Follow us on social media for the latest updates, tips, and feature drops.</p>
+      <!-- Map placeholder -->
+      <div class="reveal reveal-delay-3" style="margin-bottom:24px;">
+        <div class="map-wrap">
+          <div class="map-pin"><i class="fas fa-map-marker-alt"></i></div>
+          <div class="map-label">Ujjain, Madhya Pradesh, India</div>
+        </div>
       </div>
-      <div class="social-links-lg">
-        <a href="#" class="social-btn-lg"><i class="fab fa-twitter"></i></a>
-        <a href="#" class="social-btn-lg"><i class="fab fa-github"></i></a>
-        <a href="#" class="social-btn-lg"><i class="fab fa-discord"></i></a>
-        <a href="#" class="social-btn-lg"><i class="fab fa-linkedin-in"></i></a>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- ============================================================
-     CTA BANNER
-============================================================ -->
-<section style="padding: 0 0 72px 0;">
-  <div class="container reveal">
-    <div class="cta-banner">
-      <h2>Haven't tried MyTodo yet?</h2>
-      <p>Join 50,000+ people who use MyTodo to stay on top of their day — for free, forever.</p>
-      <div class="d-flex gap-3 justify-content-center flex-wrap">
-        <a href="todo.html" class="btn-cta-primary"><i class="fas fa-rocket"></i> Open MyTodo</a>
-        <a href="https://github.com" target="_blank" class="btn-cta-ghost"><i class="fab fa-github"></i> View on GitHub</a>
+      <!-- Social -->
+      <div class="card-custom reveal reveal-delay-3">
+        <div class="card-header-custom">
+          <div class="card-title">
+            <div class="icon"><i class="fas fa-share-alt"></i></div>
+            Follow Us
+          </div>
+        </div>
+        <div class="card-body-custom" style="padding:20px 24px;">
+          <div class="social-grid">
+            <a href="#" class="social-link-card">
+              <div class="si"><i class="fab fa-github"></i></div>
+              <div><div class="sn">GitHub</div><div class="sh">Open Source</div></div>
+            </a>
+            <a href="#" class="social-link-card">
+              <div class="si"><i class="fab fa-twitter"></i></div>
+              <div><div class="sn">Twitter</div><div class="sh">@mytodoapp</div></div>
+            </a>
+            <a href="#" class="social-link-card">
+              <div class="si"><i class="fab fa-linkedin-in"></i></div>
+              <div><div class="sn">LinkedIn</div><div class="sh">MyTodo Team</div></div>
+            </a>
+            <a href="#" class="social-link-card">
+              <div class="si"><i class="fab fa-reddit"></i></div>
+              <div><div class="sn">Reddit</div><div class="sh">r/mytodo</div></div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /col right -->
+  </div><!-- /row -->
+
+  <!-- ============================================================
+       NEWSLETTER STRIP
+  ============================================================ -->
+  <div class="reveal mt-5">
+    <div class="newsletter-strip">
+      <div class="nl-text">
+        <h3>Stay in the loop.</h3>
+        <p>Get updates on new features, tips, and announcements — no spam, ever.</p>
+      </div>
+      <div class="nl-form">
+        <input class="nl-input" type="email" id="nlEmail" placeholder="your@email.com"/>
+        <button class="nl-btn" onclick="subscribeNewsletter()">
+          <i class="fas fa-bell me-1"></i> Subscribe
+        </button>
       </div>
     </div>
   </div>
-</section>
+
+</div><!-- /container -->
 
 <!-- ============================================================
      FOOTER
@@ -544,7 +960,7 @@
         <ul class="footer-links">
           <li><a href="about.html"><i class="fas fa-chevron-right" style="font-size:.6rem"></i>About</a></li>
           <li><a href="about.html#team"><i class="fas fa-chevron-right" style="font-size:.6rem"></i>Team</a></li>
-          <li><a href="#"><i class="fas fa-chevron-right" style="font-size:.6rem"></i>Blog</a></li>
+          <li><a href="contact.html"><i class="fas fa-chevron-right" style="font-size:.6rem"></i>Contact</a></li>
           <li><a href="#"><i class="fas fa-chevron-right" style="font-size:.6rem"></i>Careers</a></li>
         </ul>
       </div>
@@ -571,6 +987,7 @@
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
   /* ===== SCROLL TO TOP ===== */
   window.addEventListener('scroll', () => {
@@ -579,15 +996,135 @@
 
   /* ===== SCROLL REVEAL ===== */
   const revealObs = new IntersectionObserver((entries) => {
-    entries.forEach(e => { 
-      if (e.isIntersecting) { 
-        e.target.classList.add('visible'); 
-        revealObs.unobserve(e.target); 
-      } 
-    });
-  }, { threshold: 0.12 });
-  
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  /* ===== TOPIC CHIPS ===== */
+  function selectTopic(el, val) {
+    document.querySelectorAll('.topic-chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('topicHidden').value = val;
+    // auto-fill subject hint
+    const map = {
+      'Bug Report': 'Bug Report: ',
+      'Feature Request': 'Feature Request: ',
+      'Feedback': 'Feedback on MyTodo',
+      'Partnership': 'Partnership Inquiry',
+      'General Question': '',
+      'Other': ''
+    };
+    const s = document.getElementById('subject');
+    if (!s.value || Object.values(map).includes(s.value)) {
+      s.value = map[val] || '';
+    }
+  }
+
+  /* ===== CHAR COUNT ===== */
+  function updateCharCount(el) {
+    document.getElementById('charCount').textContent = el.value.length;
+  }
+
+  /* ===== LIVE VALIDATION ===== */
+  function setFieldState(id, valid) {
+    const el = document.getElementById(id);
+    el.classList.toggle('success', valid);
+    el.classList.toggle('error', !valid);
+  }
+  function showErr(id, show) {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('show', show);
+  }
+
+  document.getElementById('firstName').addEventListener('blur', function() {
+    const ok = this.value.trim().length > 0;
+    setFieldState('firstName', ok); showErr('firstNameErr', !ok);
+  });
+  document.getElementById('lastName').addEventListener('blur', function() {
+    const ok = this.value.trim().length > 0;
+    setFieldState('lastName', ok); showErr('lastNameErr', !ok);
+  });
+  document.getElementById('emailAddr').addEventListener('blur', function() {
+    const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.value);
+    setFieldState('emailAddr', ok); showErr('emailErr', !ok);
+  });
+  document.getElementById('subject').addEventListener('blur', function() {
+    const ok = this.value.trim().length > 2;
+    setFieldState('subject', ok); showErr('subjectErr', !ok);
+  });
+  document.getElementById('message').addEventListener('blur', function() {
+    const ok = this.value.trim().length >= 20;
+    setFieldState('message', ok); showErr('messageErr', !ok);
+  });
+
+  /* ===== SUBMIT ===== */
+  function submitForm() {
+    const fn   = document.getElementById('firstName').value.trim();
+    const ln   = document.getElementById('lastName').value.trim();
+    const em   = document.getElementById('emailAddr').value.trim();
+    const su   = document.getElementById('subject').value.trim();
+    const msg  = document.getElementById('message').value.trim();
+    const con  = document.getElementById('consent').checked;
+
+    let valid = true;
+
+    if (!fn)  { setFieldState('firstName', false); showErr('firstNameErr', true); valid = false; }
+    if (!ln)  { setFieldState('lastName',  false); showErr('lastNameErr',  true); valid = false; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) { setFieldState('emailAddr', false); showErr('emailErr', true); valid = false; }
+    if (!su)  { setFieldState('subject',   false); showErr('subjectErr',   true); valid = false; }
+    if (msg.length < 20) { setFieldState('message', false); showErr('messageErr', true); valid = false; }
+    if (!con) { showErr('consentErr', true); valid = false; }
+
+    if (!valid) { showToast('Please fix the errors above.', 'error'); return; }
+
+    // Simulate sending
+    const btn = document.querySelector('.btn-submit');
+    btn.classList.add('loading');
+    btn.querySelector('span').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending…';
+
+    setTimeout(() => {
+      btn.classList.remove('loading');
+      btn.querySelector('span').innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+      document.getElementById('contactForm').style.display = 'none';
+      document.getElementById('successEmail').textContent = em;
+      document.getElementById('successState').style.display = 'block';
+      showToast('Message sent successfully! 🎉', 'success');
+    }, 1800);
+  }
+
+  /* ===== RESET ===== */
+  function resetForm() {
+    document.getElementById('contactForm').reset();
+    document.getElementById('contactForm').style.display = 'block';
+    document.getElementById('successState').style.display = 'none';
+    document.getElementById('charCount').textContent = '0';
+    document.querySelectorAll('.form-control-custom').forEach(el => { el.classList.remove('success','error'); });
+    document.querySelectorAll('.form-error').forEach(el => el.classList.remove('show'));
+    document.querySelectorAll('.topic-chip').forEach((c,i) => c.classList.toggle('active', i===0));
+  }
+
+  /* ===== NEWSLETTER ===== */
+  function subscribeNewsletter() {
+    const em = document.getElementById('nlEmail').value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) {
+      showToast('Please enter a valid email address.', 'error'); return;
+    }
+    document.getElementById('nlEmail').value = '';
+    showToast('Subscribed successfully! Welcome aboard 🎉', 'success');
+  }
+
+  /* ===== TOAST ===== */
+  function showToast(msg, type) {
+    const wrap = document.getElementById('toastWrap');
+    const el = document.createElement('div');
+    el.className = `toast-item ${type || ''}`;
+    el.innerHTML = `<i class="fas ${type==='success'?'fa-check-circle':type==='error'?'fa-exclamation-circle':'fa-info-circle'}"></i> ${msg}`;
+    wrap.appendChild(el);
+    setTimeout(() => {
+      el.style.opacity = '0'; el.style.transform = 'translateY(10px)'; el.style.transition = '0.3s';
+      setTimeout(() => el.remove(), 300);
+    }, 3000);
+  }
 </script>
 </body>
 </html>
